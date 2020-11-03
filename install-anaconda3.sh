@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#REPO="$(pwd)"
-#INST_OSX="Anaconda2-4.4.0-MacOSX-x86_64.sh"
-#INST_LINUX="Anaconda2-4.3.0-Linux-x86_64.sh"
 INST_DIR="/opt/anaconda3"
 FLAGS="-b -f -p $INST_DIR"
 OS="$(/usr/bin/uname)"
@@ -35,13 +32,17 @@ if [[ "$OS" == "Darwin" ]]
 then
         if [ ! -z "$OSX_URL" ]
         then
-                echo -n "OSX Detected.  Downloading Installer from $OSX_INST... "
-                wget -q $OSX_URL && echo "ok" || echo "failed!"
+                echo -n "OSX Detected.  Downloading Installer from $OSX_URL... "
+                if [[ -e "$OSX_INST" ]]
+                then
+                    echo "already exists!"
+                else
+                    wget -q $OSX_URL && echo "ok" || echo "failed!"
+                fi
                 echo "Running $OSX_INST $FLAGS... "
                 sudo -u $USR bash $OSX_INST $FLAGS || { echo "Installation Failed!"; exit; }
         else
                 echo "Unable to get the OSX Download URL!"
-                OSX_INST="$(ls -ct | egrep 'Anaconda3-.*-MacOSX' | head -1)"
                 if [ ! -z "$OSX_INST" ]
                 then
                         echo "Using local copy of the installer at $OSX_INST... "
@@ -55,13 +56,25 @@ elif [[ "$OS" == "Linux" ]]
 then
         if [ ! -z "$LINUX_URL" ]
         then
-            echo -n "Linux Detected.  Downloading Installer from $LINUX_INST... "
-            wget -q $LINUX_URL && echo "ok" || echo "failed!"
+            echo -n "Linux Detected.  Downloading Installer from $LINUX_URL... "
+            if [[ -e "$LINUX_INST" ]]
+            then
+                echo "already exists!"
+            else
+                wget -q $LINUX_URL && echo "ok" || echo "failed!"
+            fi
 	    	echo "Running $LINUX_INST $FLAGS... "
 	    	sudo -u $USR bash $LINUX_INST $FLAGS || { echo "Installation Failed!"; exit; }
 	    else
-	    	echo "Unable to get the Linux Download URL!  Exiting..."
-	    	exit
+            echo "Unable to get the Linux Download URL!"
+            if [ ! -z "$LINUX_INST" ]
+            then
+                    echo "Using local copy of the installer at $LINUX_INST... "
+                    sudo -u $USR bash $LINUX_INST $FLAGS || { echo "Installation Failed!"; exit; }
+            else
+                    echo "Exiting..."
+                    exit
+            fi
 	    fi
 fi
 
