@@ -1,0 +1,19 @@
+alias swget='wget --load-cookies ~/.urs_cookies --save-cookies ~/.urs_cookies --auth-no-challenge=on --keep-session-cookies'
+alias scurl='curl -b ~/.usr_cookies -c ~/.usr_cookies -L -n -O'
+
+#alias tw='open -a /Applications/TextWrangler.app'
+
+export EDITOR=nano
+
+export LD_LIBRARY_PATH=/opt/anaconda2/lib:$LD_LIBRARY_PATH
+export LDFLAGS="-L/opt/anaconda2/lib $LDFLAGS"
+export CPPFLAGS="-I/opt/anaconda2/include $CPPFLAGS"
+export OCSSWROOT=/Applications/seadas-7.5.3/ocssw
+export LOCAL_RESOURCES=~/python_programs/local_processing_resources
+
+export PATH=/Applications/seadas-7.5.3/bin:/opt/anaconda2/bin:$PATH
+export PYTHONPATH=$PYTHONPATH:~/python_programs:~/python_programs/utilities:~/python_programs/tutorial_exercises:~/python_programs/python_problem_set
+
+export MYPYTHONPROGRAMS=~/python_programs
+
+source $OCSSWROOT/OCSSW_bash.env
