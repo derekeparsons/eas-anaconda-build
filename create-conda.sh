@@ -1,8 +1,9 @@
 # create-conda.sh
 #
-#  Creates the standard Conda environment.  Just the base with a package or
-#   two installed on it
+#  Creates the standard Conda environment.  
 #
+#
+
 
 # Uses:
 #
@@ -16,4 +17,4 @@
 
 conda create --name conda python=3.7 -y
 source activate conda
-conda install -c conda-forge sharppy -y
+conda install -c conda-forge sharppy nco cdo ncview -y
